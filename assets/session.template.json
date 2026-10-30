@@ -1,19 +1,51 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "topic": "",
   "mode": "decision",
   "workflow_variant": "review",
   "phase": "planning",
   "scope_version": 1,
   "disciplines": [],
-  "scope_approval": {"status": "pending", "version": null, "source": null, "turn_id": null, "text": null, "discipline_ids": []},
+  "scope_approval": {
+    "status": "pending",
+    "version": null,
+    "source": null,
+    "turn_id": null,
+    "text": null,
+    "discipline_ids": []
+  },
   "roles": [],
   "scope_history": [],
-  "output": {"format": "text", "status": "recommended_default", "discussion_view": "key_disagreements", "estimate_file": null},
+  "output": {
+    "format": "text",
+    "status": "recommended_default",
+    "discussion_view": "key_disagreements",
+    "estimate_file": null
+  },
   "max_rounds": 3,
   "rounds": [],
   "result": null,
   "stop_reason": null,
   "unresolved": [],
-  "execution": {"mode": "not_started", "actual_workers": 0, "model_change_authorized": false}
+  "execution": {
+    "mode": "not_started",
+    "actual_workers": 0,
+    "model_change_authorized": false,
+    "strategy": "single_model",
+    "models": [],
+    "availability": "not_checked",
+    "authorization": null
+  },
+  "depth": "full",
+  "research": {
+    "policy": "last30",
+    "rationale": "Полный общий срез по утверждённым дисциплинам",
+    "snapshot_file": null
+  },
+  "blind_review": {
+    "blinding": "not_started",
+    "status": "not_started",
+    "mapping_file": null,
+    "results_file": null
+  }
 }

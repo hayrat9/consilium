@@ -14,6 +14,51 @@ def check(d):
         return {'valid': False, 'can_select_personas': False, 'can_run_rounds': False,
                 'errors': ['Unknown phase'], 'warnings': []}
     stage = PHASES.index(phase)
+    # Optional 1.1 fields leave historical 1.0 sessions readable without migration.
+    depth = d.get('depth', 'full')
+    if depth not in ('full', 'light'):
+        errors.append('depth must be full or light')
+    research = d.get('research', {})
+    if not isinstance(research, dict):
+        errors.append('research must be an object')
+    else:
+        policy = research.get('policy', 'last30' if depth == 'full' else 'targeted')
+        if policy not in ('last30', 'targeted', 'not_applicable'):
+            errors.append('Unknown research policy')
+        if depth == 'full' and policy != 'last30':
+            errors.append('Full depth retains the last30 research policy')
+        if policy == 'not_applicable' and not (isinstance(research.get('rationale'), str)
+                                               and research['rationale'].strip()):
+            errors.append('Skipping freshness requires a concrete rationale')
+    execution = d.get('execution', {})
+    if not isinstance(execution, dict):
+        errors.append('execution must be an object')
+    elif execution.get('strategy', 'single_model') not in ('single_model', 'multi_model'):
+        errors.append('Unknown execution strategy')
+    elif execution.get('strategy') == 'multi_model' and stage >= 3:
+        authorization = execution.get('authorization')
+        if (execution.get('model_change_authorized') is not True
+                or not isinstance(authorization, dict) or authorization.get('source') != 'user'
+                or not isinstance(authorization.get('turn_id'), str) or not authorization['turn_id'].strip()
+                or not isinstance(authorization.get('text'), str) or not authorization['text'].strip()):
+            errors.append('Multi-model execution requires recorded explicit user authorization')
+        models = execution.get('models')
+        if (not isinstance(models, list) or len(models) < 2
+                or not all(isinstance(x, str) and x.strip() for x in models)
+                or (all(isinstance(x, str) for x in models) and len(set(models)) != len(models))):
+            errors.append('Multi-model execution requires at least two distinct actual model IDs')
+        if execution.get('availability') != 'verified':
+            errors.append('Multi-model availability must be checked before readiness')
+    blind = d.get('blind_review', {})
+    if not isinstance(blind, dict):
+        errors.append('blind_review must be an object')
+    else:
+        if blind.get('status', 'not_started') not in ('not_started', 'in_progress', 'complete', 'skipped_no_eligible'):
+            errors.append('Unknown blind review status')
+        if blind.get('blinding', 'not_started') not in ('not_started', 'metadata_only', 'fresh_contexts'):
+            errors.append('Unknown blinding mode')
+        if phase == 'complete' and blind.get('status') == 'in_progress':
+            errors.append('Cannot complete while anonymous assessments are in progress')
     version = d.get('scope_version')
     if not isinstance(version, int) or isinstance(version, bool) or version < 1:
         errors.append('scope_version must be a positive integer')
@@ -141,6 +186,10 @@ def check(d):
                 or (status == 'complete' and set(ids) != expected)):
             errors.append('Round ' + str(i) + ' must retain its scoped roles; partial cards need in_progress')
         for card in cards:
+            if (isinstance(execution, dict) and execution.get('strategy') == 'multi_model'
+                    and (not isinstance(card.get('model'), str)
+                         or card['model'] not in (execution.get('models') if isinstance(execution.get('models'), list) else []))):
+                errors.append('Multi-model cards must identify their actual declared model')
             text = card.get('content')
             position, arguments = card.get('position'), card.get('arguments')
             reason, vote = card.get('reason'), card.get('vote')

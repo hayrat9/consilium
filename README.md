@@ -16,8 +16,9 @@ The disciplines are selected for your task rather than fixed in advance.
 1. The facilitator clarifies the goal and proposes useful disciplines, their questions,
    an output format, and an estimate of resources.
 2. **You approve the scope.** Named roles and discussion rounds do not start before approval.
-3. The agent selects AI perspectives based on relevant work and checks available sources
-   from the last 30 days. Missing evidence and inaccessible sources are reported explicitly.
+3. The agent selects AI perspectives based on relevant work. Full depth checks sources
+   from the last 30 days; light depth checks the changing facts relevant to the question.
+   Missing evidence and inaccessible sources are reported explicitly.
 4. Three rounds: independent positions or ideas → critique and development → review of the conclusion.
 5. You receive options, supporting evidence, key disagreements, limitations, and a validation plan.
 
@@ -29,6 +30,36 @@ a larger approved council can run in waves.
 Participants are **AI simulations of professional perspectives**, not invited human experts.
 Agreement does not establish truth, and scores are not probabilities of success.
 Sources, objections, and uncertainty matter more than a recognizable name.
+
+## New in 1.1
+
+- **Anonymous review in round 2:** a local helper creates separately shuffled packets,
+  hides author/model metadata, and excludes self-authored and co-authored answers.
+  Fresh reviewer contexts are needed for independent blind review; the helper cannot
+  remove every identity clue in the text. Sequential review is labelled metadata-only.
+- **Round viewer:** generate a standalone offline HTML report with positions side by
+  side, amendments, disagreement, and unfinished cards. No AI calls are made.
+- **Optional multi-model execution:** explicitly chosen by you, using models actually
+  available in your environment. No model switching, paid fallback, or API setup happens
+  automatically. This package contains a protocol, not a network orchestrator.
+- **Light depth:** short substantive rounds and targeted checks of changing facts.
+  Full depth retains the shared last-30-days scan. Scope approval and final review
+  remain required in both. No measured quality or cost improvement is claimed.
+
+Use `depth: light` in your request, or ask for multi-model execution with an estimate.
+Review/brainstorm and full/light are independent choices. Existing 1.0 sessions remain
+readable; do not rewrite completed rounds to make them appear anonymously reviewed.
+
+```bash
+python3 scripts/blind_review.py prepare /path/to/submissions.json --output-dir /path/to/review-packets
+python3 scripts/blind_review.py join /path/to/review-packets/mapping.json /path/to/reviews.json --output /path/to/review-results.json
+python3 scripts/render_rounds.py /path/to/session.json --output /path/to/rounds.html
+```
+
+See [anonymous review](references/blind-review.md) for input formats and
+[execution modes](references/execution-modes.md) for the depth/model contract.
+The author mapping stays with the facilitator until reviews close; do not send the
+HTML viewer or full session to blind reviewers. Helpers do not call any model API.
 
 ## Installation
 
@@ -109,6 +140,8 @@ The hashtag does not install it or register a command in Telegram or another cha
 
 ```bash
 python3 -B scripts/self_test.py
+python3 -B scripts/test_review_tools.py
+python3 -B scripts/test_install.py
 python3 scripts/session_check.py assets/session.template.json
 python3 scripts/estimate_resources.py assets/estimate.example.json
 ```
@@ -154,4 +187,4 @@ Read more: [workflow](references/workflow.md),
 [compatibility](references/runtime-compatibility.md).
 These supporting documents are currently in Russian.
 
-Version 1.0.0. [MIT](LICENSE). [Sources and credits](references/credits.md).
+Version 1.1.0. [MIT](LICENSE). [Sources and credits](references/credits.md).

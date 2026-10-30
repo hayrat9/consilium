@@ -3,7 +3,7 @@ import argparse
 from pathlib import Path
 import shutil
 
-FILES = ('SKILL.md', 'README.md', 'LICENSE', 'VERSION', '.gitignore')
+FILES = ('SKILL.md', 'README.md', 'README.ru.md', 'LICENSE', 'VERSION', '.gitignore')
 DIRS = ('agents', 'assets', 'references', 'scripts')
 
 

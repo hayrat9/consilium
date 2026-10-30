@@ -2,7 +2,7 @@
 import tempfile
 import unittest
 from pathlib import Path
-from install import destination, install
+from install import destination, install, FILES
 
 SOURCE = Path(__file__).resolve().parents[1]
 
@@ -18,7 +18,8 @@ class InstallTests(unittest.TestCase):
                     for item in (SOURCE / root).rglob('*'):
                         if item.is_file() and '__pycache__' not in item.parts:
                             self.assertEqual(item.read_bytes(), (target / item.relative_to(SOURCE)).read_bytes())
-                self.assertEqual((target/'SKILL.md').read_bytes(), (SOURCE/'SKILL.md').read_bytes())
+                for name in FILES:
+                    self.assertEqual((target/name).read_bytes(), (SOURCE/name).read_bytes())
                 self.assertFalse((target/'.git').exists())
 
     def test_existing_install_is_not_overwritten(self):
