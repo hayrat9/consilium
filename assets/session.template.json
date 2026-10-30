@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "topic": "",
+  "mode": "decision",
+  "workflow_variant": "review",
+  "phase": "planning",
+  "scope_version": 1,
+  "disciplines": [],
+  "scope_approval": {"status": "pending", "version": null, "source": null, "turn_id": null, "text": null, "discipline_ids": []},
+  "roles": [],
+  "scope_history": [],
+  "output": {"format": "text", "status": "recommended_default", "discussion_view": "key_disagreements", "estimate_file": null},
+  "max_rounds": 3,
+  "rounds": [],
+  "result": null,
+  "stop_reason": null,
+  "unresolved": [],
+  "execution": {"mode": "not_started", "actual_workers": 0, "model_change_authorized": false}
+}

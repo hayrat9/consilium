@@ -1,0 +1,13 @@
+{
+  "basis": "illustrative",
+  "assumptions": ["Все числа учебные,это не замеры или обещание расхода.", "Один и тот же совет/источники для каждого формата.", "Параллельность уже учтена во времени анализа.", "Оформление после анализа;ожидание пользователя исключено."],
+  "analysis_tokens": [24000, 40000],
+  "analysis_minutes": [25, 45],
+  "baseline": "text",
+  "formats": [
+    {"id": "text", "label": "Краткий текст и таблица", "extra_tokens": [1500, 2500], "extra_minutes": [2, 4], "render_minutes": [0, 0], "external_cost": "не требуется в этом примере"},
+    {"id": "argument_graph", "label": "Текст и карта аргументов", "extra_tokens": [3000, 6000], "extra_minutes": [5, 10], "render_minutes": [0, 0], "external_cost": "не оценено;зависит от инструмента"},
+    {"id": "slides", "label": "Текст и презентация", "extra_tokens": [6000, 12000], "extra_minutes": [10, 20], "render_minutes": [2, 8], "external_cost": "не оценено"},
+    {"id": "video", "label": "Текст и короткий ролик", "extra_tokens": [10000, 20000], "extra_minutes": [15, 30], "render_minutes": [10, 60], "external_cost": "не оценено;медиа и рендер отдельно от текстовых токенов"}
+  ]
+}
