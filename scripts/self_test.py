@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def approved(n=2):
     d = json.loads((ROOT/'assets/session.template.json').read_text())
+    d.pop('protocol_version', None)  # These fixtures retain the historical protocol.
     d.update(topic='Выбор способа очистки воды', phase='ready')
     d['disciplines'] = [dict(id=f'd{i}', name=f'Область{i}', question='Как меняется ответ?',
                               contribution='Отдельный аспект') for i in range(n)]

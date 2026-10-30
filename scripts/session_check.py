@@ -1,10 +1,12 @@
 """Check session structure and phase gates; does not authenticate user approval."""
 import json
 import sys
+from pathlib import Path
+from protocol_check import validate as validate_protocol
 
 PHASES = ['planning', 'awaiting_scope', 'approved', 'ready', 'round1', 'round2', 'round3', 'complete']
 
-def check(d):
+def check(d, *, artifact_dir=None):
     if not isinstance(d, dict):
         return {'valid': False, 'can_select_personas': False, 'can_run_rounds': False,
                 'errors': ['Session must be an object'], 'warnings': []}
@@ -224,6 +226,9 @@ def check(d):
         if isinstance(maximum, int) and len(rounds) < maximum:
             if not isinstance(d.get('stop_reason'), str) or not d['stop_reason'].strip():
                 errors.append('Finishing before the planned round count requires stop_reason')
+    protocol_errors, protocol_warnings = validate_protocol(d, artifact_dir)
+    errors.extend(protocol_errors)
+    warnings.extend(protocol_warnings)
     warnings.append('This validates recorded structure, not authenticity of approval or truth of sources')
     return {'valid': not errors, 'phase': phase,
             'can_select_personas': approved and 2 <= stage < 7 and not errors,
@@ -232,7 +237,7 @@ def check(d):
 
 if __name__ == '__main__':
     try:
-        result = check(json.load(open(sys.argv[1], encoding='utf-8')))
+        result = check(json.load(open(sys.argv[1], encoding='utf-8')), artifact_dir=Path(sys.argv[1]).resolve().parent)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         sys.exit(0 if result['valid'] else 2)
     except (ValueError, TypeError, KeyError, OSError, IndexError) as e:

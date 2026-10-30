@@ -46,6 +46,17 @@
     "blinding": "not_started",
     "status": "not_started",
     "mapping_file": null,
-    "results_file": null
-  }
+    "results_file": null,
+    "reviews_file": null,
+    "exception_reason": null
+  },
+  "protocol_version": "1.2",
+  "decision_contract": {
+    "stage": null,
+    "acceptance_criteria": []
+  },
+  "claims": [],
+  "claims_not_applicable_reason": null,
+  "critical_check": null,
+  "position_changes": []
 }

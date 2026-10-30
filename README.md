@@ -31,7 +31,31 @@ Participants are **AI simulations of professional perspectives**, not invited hu
 Agreement does not establish truth, and scores are not probabilities of success.
 Sources, objections, and uncertainty matter more than a recognizable name.
 
-## New in 1.1
+## New in 1.2
+
+- **Explicit outcomes:** a candidate for testing, support for an action within stated
+  limits, no option passed the threshold, or insufficient evidence. Research can finish
+  with an analysis without selecting an option.
+- **Key claims:** distinguish claim type, supporting evidence and limits. A checked
+  price is not evidence of purchases; choosing a cheap test does not establish demand.
+- **Attempted refutation:** examine a key assumption, a simpler/no-action alternative
+  and the strongest objection. No mandatory extra Red Team role is added.
+- **R2 completion:** new sessions marked `protocol_version: "1.2"` cross-check the
+  mapping, raw assessments and joined result. A complete flag alone is insufficient.
+  No-eligible exceptions and stopping before R2 are separate cases. Legacy sessions
+  remain readable with a warning and are not rewritten.
+
+See the [outcome and verification contract](references/decision-checks.md) (Russian).
+It checks recorded consistency, not authentic AI execution or decision quality.
+Benefits over strong single-agent analysis and cost savings have not been measured.
+
+Example outcomes:
+
+> Insufficient evidence: published prices are available, but purchase evidence is missing.
+
+> A candidate is selected for a cheap test; demand has not been established.
+
+## Features from 1.1
 
 - **Anonymous review in round 2:** a local helper creates separately shuffled packets,
   hides author/model metadata, and excludes self-authored and co-authored answers.
@@ -142,6 +166,7 @@ The hashtag does not install it or register a command in Telegram or another cha
 python3 -B scripts/self_test.py
 python3 -B scripts/test_review_tools.py
 python3 -B scripts/test_install.py
+python3 -B scripts/test_protocol.py
 python3 scripts/session_check.py assets/session.template.json
 python3 scripts/estimate_resources.py assets/estimate.example.json
 ```
@@ -187,4 +212,4 @@ Read more: [workflow](references/workflow.md),
 [compatibility](references/runtime-compatibility.md).
 These supporting documents are currently in Russian.
 
-Version 1.1.0. [MIT](LICENSE). [Sources and credits](references/credits.md).
+Version 1.2.0. [MIT](LICENSE). [Sources and credits](references/credits.md).

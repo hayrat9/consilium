@@ -6,8 +6,8 @@ from pathlib import Path
 from session_check import check
 
 
-def render(data):
-    validation = check(data)
+def render(data, *, artifact_dir=None):
+    validation = check(data, artifact_dir=artifact_dir)
     if not validation['valid']:
         raise ValueError('; '.join(validation['errors']))
     def pretty(value):
@@ -66,7 +66,8 @@ AI-перспективы, не заседание людей. Только дл
 <div class="table"><table><thead><tr><th scope="col">Роль / Role</th>''' + headers + '''</tr></thead><tbody>''' + ''.join(rows) + '''</tbody></table></div>''' + details + '''
 <details><summary>Состав, исполнение и пределы / Scope, execution and limits</summary><pre>''' + pretty({
         k: data.get(k) for k in ('scope_version', 'scope_approval', 'scope_history', 'disciplines',
-                                  'roles', 'execution', 'research', 'blind_review', 'unresolved', 'stop_reason')}) + '''</pre></details>
+                                  'roles', 'execution', 'research', 'blind_review', 'unresolved', 'stop_reason',
+                                  'protocol_version', 'decision_contract', 'claims', 'critical_check', 'position_changes')}) + '''</pre></details>
 </main></html>'''
 
 
@@ -76,7 +77,7 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     try:
-        html = render(json.loads(args.session.read_text(encoding='utf-8')))
+        html = render(json.loads(args.session.read_text(encoding='utf-8')), artifact_dir=args.session.resolve().parent)
         with args.output.open('x', encoding='utf-8') as output:
             output.write(html)
         print(args.output)
