@@ -31,7 +31,21 @@ Participants are **AI simulations of professional perspectives**, not invited hu
 Agreement does not establish truth, and scores are not probabilities of success.
 Sources, objections, and uncertainty matter more than a recognizable name.
 
-## New in 1.2
+## New in 1.2.1
+
+- **Final editorial pass:** a short, self-contained answer first, then the detail
+  needed for the task, with sources and the selected round journal kept accessible.
+- Remove repetition and bureaucratic wording while preserving conditions, uncertainty,
+  evidence, meaningful objections, numbers and attribution. No fixed word limit or
+  compression quota; original round cards and votes remain intact.
+- Self-contained clarity rules inspired by Glavred; no extra skill, external service
+  or 10/10 score is required. Text is not sent to a proofreading service by default.
+  This is an instruction update, not a measured readability improvement.
+
+See the [editorial pass](references/editorial-pass.md) (Russian).
+Package version is 1.2.1; the session protocol remains 1.2.
+
+## Features from 1.2
 
 - **Explicit outcomes:** a candidate for testing, support for an action within stated
   limits, no option passed the threshold, or insufficient evidence. Research can finish
@@ -212,4 +226,4 @@ Read more: [workflow](references/workflow.md),
 [compatibility](references/runtime-compatibility.md).
 These supporting documents are currently in Russian.
 
-Version 1.2.0. [MIT](LICENSE). [Sources and credits](references/credits.md).
+Version 1.2.1. [MIT](LICENSE). [Sources and credits](references/credits.md).
